@@ -1,0 +1,2 @@
+cd C:\Users\650B\Documents\jogo_devs
+python -m tests.teste_funcionalidade_classe
