@@ -11,7 +11,6 @@ class Maquina:
         self.jogada_vencedora = 0
         self.contador = 0
         self.combinacao_escolhida = [] # depois testar com 0
-        self.saldo_inserido = 0 # para fins de teste de ganho/perda de saldo
 
     def zerar_maquina(self):
         self.contador = 0
@@ -26,9 +25,6 @@ class Maquina:
         return lista_nova
 
     def gerar_jogada_vencedora(self):
-        """
-        Essa função gera a jogada em que o usuário vencerá a aposta
-        """
         self.jogada_vencedora = random.randint(1, 4)
     
     def escolher_combinacao(self):
@@ -45,14 +41,23 @@ class Maquina:
         self.escolher_combinacao()
 
     def jogada(self):
+        todas_combinacoes = []
         #print(self.jogada_vencedora, self.combinacao_escolhida)
         self.gerador_de_aposta()
 
         while self.contador < self.jogada_vencedora:
             self.contador += 1
-            self.gerar_jogada_perdedora()
+            todas_combinacoes.append(self.gerar_jogada_perdedora())
 
         # jogada vencedora
-        print("Jogador venceu!")
+        todas_combinacoes.append(self.combinacao_escolhida)
+        #print("Lista: {}".format(todas_combinacoes))
         self.zerar_maquina()
+        return todas_combinacoes
+    
+    def aposta(self):
+        rodada = self.jogada()
+        return rodada               # retorna a lista com as combinacoes perdedoras e a ganhadora por último. Chamar essa função no front, pfv não esquecer!
 
+m  = Maquina()
+print(m.aposta())
