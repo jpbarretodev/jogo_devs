@@ -6,35 +6,20 @@ class Jogador:
         self.nome = nome
         self.saldo = saldo # por enquanto, a varíavel receberá int
 
-    @staticmethod
-    def verificar_saldo(saldo_atual, saldo_para_verificacao):
-        if saldo_para_verificacao > saldo_atual:
+    def verificar_saldo(self):
+        if self.saldo <= 0:
             return False
         else:
             return True
 
-    def ganhar_saldo(self, saldo_ganho):
-        self.saldo += saldo_ganho
-        pass
-
-    def perder_saldo(self, saldo_apostado):
-        self.saldo -= saldo_apostado
-        pass
-
     def apostar(self):
-        """
-        Essa função retorna um booleano permitindo ou não que o usuário faça a aposta. Quando a função retornar False, o usuário perdeu.
-        """
-        # Faz a verificação do saldo do Jogador
-        if self.saldo > 0:
-            aposta = int(input("Insira o valor da aposta: "))
+        if self.verificar_saldo() == True:
+            print("Ok")
+        else:
+            print("Você perdeu por estar sem saldo!")
 
-            while self.verificar_saldo(self.saldo, aposta) != True:
-                aposta = int(input("Valor maior que o saldo. Insira um valor dentro da possibilidade: "))
-            else:
-                print(f"Valor apostado {aposta}") # trocar para retornar o saldo e/ou um booleano
-    
-        elif self.saldo <= 0: # Obs: dar uma olhada com carinho aqui nessa condição
-            return False
+    def alterar_saldo(self):
         
-    
+        pass
+
+user = Jogador("Tester", 100)
