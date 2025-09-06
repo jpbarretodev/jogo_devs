@@ -40,13 +40,16 @@ class Maquina:
         self.gerar_jogada_vencedora()
         self.escolher_combinacao()
 
-    def jogada(self):
+    def jogada(self, aposta_do_jogador):
         todas_combinacoes = []
         #print(self.jogada_vencedora, self.combinacao_escolhida)
-        self.gerador_de_aposta()
+
+        self.gerador_de_aposta() # aqui ja alterou a configuração da máquina
+
 
         while self.contador < self.jogada_vencedora:
             self.contador += 1
+            aposta_do_jogador
             todas_combinacoes.append(self.gerar_jogada_perdedora())
 
         # jogada vencedora
@@ -55,9 +58,11 @@ class Maquina:
         self.zerar_maquina()
         return todas_combinacoes
     
-    def aposta(self):
-        rodada = self.jogada()
+    def aposta(self, aposta_jogador):
+        rodada = self.jogada(aposta_jogador)
         return rodada               # retorna a lista com as combinacoes perdedoras e a ganhadora por último. Chamar essa função no front, pfv não esquecer!
 
+"""
 m  = Maquina()
 print(m.aposta())
+"""
