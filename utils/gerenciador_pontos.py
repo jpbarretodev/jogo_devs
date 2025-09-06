@@ -24,15 +24,16 @@ with open(caminho_pontos, "r") as file:
 
 #################################################################################
 
-def gerar_pontuacao(jogada_escolhida):
+def gerar_pontuacao(jogada_escolhida, saldo_inserido):
     if jogada_escolhida in combinacoes_possiveis:
         for indice, elemento in enumerate(combinacoes_possiveis):
             if jogada_escolhida == elemento:
                 #return indice
                 multiplicador_ponto = pontuacoes[indice]
-                return print(3 * multiplicador_ponto) # retorna o saldo final do jogador na aposta
+                return saldo_inserido * multiplicador_ponto # retorna o saldo final do jogador na aposta
 
-
+'''
 print(combinacoes_possiveis)
 print(pontuacoes)
-gerar_pontuacao([3, 3, 3])
+#gerar_pontuacao([3, 3, 3], 5)
+'''
