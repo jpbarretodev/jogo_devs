@@ -7,19 +7,25 @@ from utils.gerenciador_pontos import gerar_pontuacao
 # instanciando os objetos
 m = Maquina()
 user = Jogador("Tester", 100)
+perdeu = False
 
-# primeiro passo do jogo: usuário insere o valor da aposta
-user.apostar()
+# primeiro passo do jogo: apostar o numero de vezes das jogadas
 
-# segundo passo do jogo: maquina gera a jogada e retorna a lista para o front
-lista = m.aposta(user.apostar()) # recebe TODA a jogada
+lista = m.aposta()
+print(lista)
 
-# terceiro passo do jogo: precisa passar para o GERADOR DE PONTUAÇÃO a jogada e o saldo inserido
-result = gerar_pontuacao(lista[len(lista) - 1], user.saldo_inserido)
+for i in range(len(lista)):
 
-# Quarto passo: alterar o saldo do usuário após aposta
-user.saldo += result
+    user.apostar()
 
+    if user.saldo <= 0 and i <= len(lista) - 2:
+        print('Jogador perdeu sem ta na ultima rodada')
+        perdeu = True
+        break
+    else:
+        continue
 
-# Verificar estado atual do jogador
-print("Saldo atual: {}\nSaldo inserido: {}\nNovo saldo (valor aposta + multiplicador): {}".format(user.saldo, user.saldo_inserido, result))
+if perdeu:
+    print('burrao')
+else:
+    print('ganhou')
