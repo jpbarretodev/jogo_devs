@@ -3,7 +3,7 @@
 import random # importação da biblioteca para realizar a randomização da escolha dos elementos
 import json
 
-caminho = "C:/Users/650B/Documents/jogo_devs/utils/combinacoes_vencedoras.json"
+#caminho = "../utils/combinacoes_vencedoras.json"
 
 class Maquina:
 
@@ -26,8 +26,9 @@ class Maquina:
 
     def gerar_jogada_vencedora(self):
         self.jogada_vencedora = random.randint(1, 4)
+        return self.jogada_vencedora
     
-    def escolher_combinacao(self):
+    def escolher_combinacao(self, caminho = "../utils/combinacoes_vencedoras.json"):
         """
         Essa função escolhe a combinação que o usuário receberá na jogada em que for vencedor
         """
@@ -35,6 +36,7 @@ class Maquina:
             combinacoes = json.load(file) # combinações agora é um dicionario em python
             combinacao = random.choice([combinacoes["combinacao1"], combinacoes["combinacao2"], combinacoes["combinacao3"]]) # escolhe a combinação
             self.combinacao_escolhida = combinacao
+            return combinacao
 
     def gerador_de_aposta(self): # combina as jogadas
         self.gerar_jogada_vencedora()
