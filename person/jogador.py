@@ -10,9 +10,8 @@ class Jogador:
     def alterar_saldo(self):
         self.saldo -= self.saldo_inserido
 
-    def apostar(self): # < -- FUNÇÃO EM TESTE -- >
-        
-        self.saldo_inserido = int(input('Insira o valor da aposta: '))
+    def validar_aposta(self, saldo_inserido = 0): # < -- FUNÇÃO EM TESTE -- >
+        self.saldo_inserido = int(input('Insira o valor da aposta: ')) # esse número deve vir do próprio front como um inteiro ou objeto de classe para poder ser chamado no backend e fazer a lógica
 
         #verificador de saldo inserido
         while self.saldo_inserido > self.saldo:
@@ -28,5 +27,4 @@ print(f"Saldo após a aposta: {user.saldo} e Saldo inserido: {user.saldo_inserid
 '''
 
 # user = Jogador('Tester', 100)
-
 # user.apostar()
