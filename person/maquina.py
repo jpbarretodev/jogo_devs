@@ -49,6 +49,7 @@ class Maquina:
         self.gerador_de_aposta(caminho) # aqui ja alterou a configuração da máquina
 
         while self.contador < self.jogada_vencedora:
+
             self.contador += 1
             todas_combinacoes.append(self.gerar_jogada_perdedora())
 
