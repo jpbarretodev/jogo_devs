@@ -38,15 +38,15 @@ class Maquina:
             self.combinacao_escolhida = combinacao
             return combinacao
 
-    def gerador_de_aposta(self): # combina as jogadas
+    def gerador_de_aposta(self, caminho = "../utils/combinacoes_vencedoras.json"): # combina as jogadas
         self.gerar_jogada_vencedora()
-        self.escolher_combinacao()
+        self.escolher_combinacao(caminho)
 
-    def jogada(self):
+    def jogada(self, caminho = "../utils/combinacoes_vencedoras.json"):
         todas_combinacoes = []
         #print(self.jogada_vencedora, self.combinacao_escolhida)
 
-        self.gerador_de_aposta() # aqui ja alterou a configuração da máquina
+        self.gerador_de_aposta(caminho) # aqui ja alterou a configuração da máquina
 
         while self.contador < self.jogada_vencedora:
             self.contador += 1
@@ -64,5 +64,5 @@ class Maquina:
 
 """
 m  = Maquina()
-print(m.aposta())
-"""
+print(m.jogada())
+"""      
