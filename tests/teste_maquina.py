@@ -23,4 +23,7 @@ def teste_escolher_combinacao(numero_de_escolhas):
 	for i in range(numero_de_escolhas):
 		print("combinação no momento {}: {}\n".format(i+1, maquina.escolher_combinacao(CAMINHO_JSON)))
 		
-teste_gerar_jogada_vencedora(4)
+def teste_montar_jogada(numero_de_jogadas, dir_caminho = CAMINHO_JSON):
+	for i in range(numero_de_jogadas):
+		print("Jogada na aposta {}: {}\n".format(i+1, maquina.jogada(dir_caminho)))
+		
