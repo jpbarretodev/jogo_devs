@@ -1,4 +1,4 @@
-import pygame
+import pygame 
 import random
 
 # --- Classe Maquina (baseada no seu código) ---
