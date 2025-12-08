@@ -49,7 +49,6 @@ def caixa_imgs(x, y, img):
     # imagem dentro com margem
     tela.blit(img, (x + 5, y + 5))
 
-# Função para desenhar botão
 def desenhar_botao(texto, x, y, largura, altura):
     mouse = pygame.mouse.get_pos()
     clique = pygame.mouse.get_pressed()
@@ -68,8 +67,6 @@ def desenhar_botao(texto, x, y, largura, altura):
 
     return False
 
-
-# Loop principal
 while True:
     tela.fill(branco)
 
