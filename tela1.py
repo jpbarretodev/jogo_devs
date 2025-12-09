@@ -267,6 +267,6 @@ while True:
         if desenhar_botao("Voltar", 250, 300, 120, 60):
             tela_atual = "menu"
             pygame.time.delay(200)
-        
+
              
     pygame.display.update()
