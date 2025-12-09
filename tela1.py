@@ -231,6 +231,8 @@ while True:
         caixa_imgs(400, 150, imgs_atual[2])
         
         if desenhar_botao("Girar", 250, 300, 120, 50):
+            jogador.saldo_inserido=5
+            jogador.alterar_saldo()
             rodada=maquina.aposta()
             ultima=rodada[-1]
             for i in range(15):
@@ -240,9 +242,31 @@ while True:
                     random.choice(simbolos_imgs)
                 ]
             pygame.time.delay(200)
-        if desenhar_botao("Voltar", 250, 350, 120, 50):
-            tela_atual = "menu"
+        if desenhar_botao("Saldo", 250, 350, 120, 50):
+            tela_atual = "terceira"
             pygame.time.delay(200)
             imgs_atual=[simbolos_imgs[i-1] for i in ultima]
-            
+
+            if ultima in combinacoes_possiveis:
+                indice=combinacoes_possiveis.index(ultima)
+                multiplicador=pontuacoes[indice]
+
+                ganho=jogador.saldo_inserido*multiplicador
+                jogador.saldo+=ganho
+                print('Ganhou',ganho)
+            else:
+                print( 'perdeu')
+    #tela3
+    elif tela_atual=="terceira":
+        tela.fill(preto)
+        titulo = fonte.render("SALDO ATUAL:", True, branco)
+        valor = fonte.render(f"R$ {jogador.saldo}", True, branco)
+        tela.blit(titulo, (200, 80))
+        tela.blit(valor, (250, 170))
+
+        if desenhar_botao("Voltar", 250, 300, 120, 60):
+            tela_atual = "menu"
+            pygame.time.delay(200)
+        
+             
     pygame.display.update()
