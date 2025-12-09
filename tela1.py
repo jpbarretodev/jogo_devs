@@ -1,8 +1,141 @@
 import pygame
 import sys
 import random
+import json
 
 pygame.init()
+
+caminho_combinacao = "utils/combinacoes_vencedoras.json"
+caminho_pontos = "utils/multiplicador_pontos.json"
+
+combinacoes_possiveis = []
+pontuacoes = []
+
+# abrir arquivos - combinacoes possíveis
+with open(caminho_combinacao, "r") as file:
+    combinacoes = json.load(file)
+
+     # gerar lista de combinacoes
+    for i in range(len(combinacoes)):
+        combinacoes_possiveis.append(combinacoes["combinacao{}".format(i+1)])
+
+with open(caminho_pontos, "r") as file:
+    pontos = json.load(file)
+
+    #gera lista dos pontos
+    for i in range(len(pontos)):
+        pontuacoes.append(pontos["combinacao{}".format(i+1)])
+
+#################################################################################
+
+def gerar_pontuacao(jogada_escolhida, saldo_inserido):
+    if jogada_escolhida in combinacoes_possiveis:
+        for indice, elemento in enumerate(combinacoes_possiveis):
+            if jogada_escolhida == elemento:
+                #return indice
+                multiplicador_ponto = pontuacoes[indice]
+                return saldo_inserido * multiplicador_ponto # retorna o saldo final do jogador na aposta
+
+
+print(combinacoes_possiveis)
+print(pontuacoes)
+#gerar_pontuacao([3, 3, 3], 5)
+
+
+#caminho = "../utils/combinacoes_vencedoras.json"
+
+class Maquina:
+
+    def __init__(self):
+        self.jogada_vencedora = 0
+        self.contador = 0
+        self.combinacao_escolhida = [] # depois testar com 0
+
+    def zerar_maquina(self):
+        self.contador = 0
+        self.jogada_vencedora = 0
+        self.combinacao_escolhida = []
+        self.saldo_inserido = 0
+
+    def gerar_jogada_perdedora(self):
+        lista = [1, 2, 3]
+        lista_nova = random.sample(lista, len(lista))
+        #print(lista_nova)
+        return lista_nova
+
+    def gerar_jogada_vencedora(self):
+        self.jogada_vencedora = random.randint(1, 4)
+        return self.jogada_vencedora
+    
+    def escolher_combinacao(self, caminho = "utils/combinacoes_vencedoras.json"):
+        """
+        Essa função escolhe a combinação que o usuário receberá na jogada em que for vencedor
+        """
+        with open(caminho, "r") as file:
+            combinacoes = json.load(file) # combinações agora é um dicionario em python
+            combinacao = random.choice([combinacoes["combinacao1"], combinacoes["combinacao2"], combinacoes["combinacao3"]]) # escolhe a combinação
+            self.combinacao_escolhida = combinacao
+            return combinacao
+
+    def gerador_de_aposta(self, caminho = "utils/combinacoes_vencedoras.json"): # combina as jogadas
+        self.gerar_jogada_vencedora()
+        self.escolher_combinacao(caminho)
+
+    def jogada(self, caminho = "utils/combinacoes_vencedoras.json"):
+        todas_combinacoes = []
+        #print(self.jogada_vencedora, self.combinacao_escolhida)
+
+        self.gerador_de_aposta(caminho) # aqui ja alterou a configuração da máquina
+
+        while self.contador < self.jogada_vencedora:
+
+            self.contador += 1
+            todas_combinacoes.append(self.gerar_jogada_perdedora())
+
+        # jogada vencedora
+        todas_combinacoes.append(self.combinacao_escolhida)
+        #print("Lista: {}".format(todas_combinacoes))
+        self.zerar_maquina()
+        return todas_combinacoes
+    
+    def aposta(self):
+        rodada = self.jogada()
+        return rodada               # retorna a lista com as combinacoes perdedoras e a ganhadora por último. Chamar essa função no front, pfv não esquecer!
+
+
+m  = Maquina()
+print(m.jogada())
+
+
+class Jogador:
+
+    def __init__(self, nome: str, saldo: int): # construção da classe recebendo o nome e o saldo inicial do jogador
+        self.nome = nome
+        self.saldo = saldo # por enquanto, a varíavel receberá int
+        self.saldo_inserido = 0
+
+    def alterar_saldo(self):
+        self.saldo -= self.saldo_inserido
+
+    def validar_aposta(self, saldo_inserido = 0): # < -- FUNÇÃO EM TESTE -- >
+        self.saldo_inserido = int(input('Insira o valor da aposta: ')) # esse número deve vir do próprio front como um inteiro ou objeto de classe para poder ser chamado no backend e fazer a lógica
+
+        #verificador de saldo inserido
+        while self.saldo_inserido > self.saldo:
+            self.saldo_inserido = int(input('Valor mais alto que o permitido. Insira novamente'))
+
+        self.alterar_saldo()
+        
+'''''''''
+user = Jogador("Tester", 2)
+print(f"Saldo atual: {user.saldo}")
+user.apostar()
+print(f"Saldo após a aposta: {user.saldo} e Saldo inserido: {user.saldo_inserido}")
+'''''''''
+
+# user = Jogador('Tester', 100)
+# user.apostar()
+
 
 # Config da tela
 largura, altura = 600, 400
@@ -38,7 +171,6 @@ azul = (50, 100, 255)
 # Fonte
 fonte = pygame.font.Font(None, 40)
 
-
 tela_atual = "menu" 
 
 def caixa_imgs(x, y, img):
@@ -49,7 +181,6 @@ def caixa_imgs(x, y, img):
     # imagem dentro com margem
     tela.blit(img, (x + 5, y + 5))
 
-# Função para desenhar botão
 def desenhar_botao(texto, x, y, largura, altura):
     mouse = pygame.mouse.get_pos()
     clique = pygame.mouse.get_pressed()
@@ -67,9 +198,9 @@ def desenhar_botao(texto, x, y, largura, altura):
     tela.blit(texto_render, (x + 10, y + 10))
 
     return False
+maquina=Maquina()
+jogador=Jogador('Player 1',100)
 
-
-# Loop principal
 while True:
     tela.fill(branco)
 
@@ -101,14 +232,18 @@ while True:
         caixa_imgs(400, 150, imgs_atual[2])
         
         if desenhar_botao("Girar", 250, 300, 120, 50):
-            imgs_atual = [
-            random.choice(imgs_atual),
-            random.choice(imgs_atual),
-            random.choice(imgs_atual)
-        ]
+            rodada=maquina.aposta()
+            ultima=rodada[-1]
+            for i in range(15):
+                imgs_atual=[
+                    random.choice(simbolos_imgs),
+                    random.choice(simbolos_imgs),
+                    random.choice(simbolos_imgs)
+                ]
             pygame.time.delay(200)
         if desenhar_botao("Voltar", 250, 350, 120, 50):
             tela_atual = "menu"
             pygame.time.delay(200)
+            imgs_atual=[simbolos_imgs[i-1] for i in ultima]
             
     pygame.display.update()
