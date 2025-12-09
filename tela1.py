@@ -136,7 +136,6 @@ print(f"Saldo após a aposta: {user.saldo} e Saldo inserido: {user.saldo_inserid
 # user = Jogador('Tester', 100)
 # user.apostar()
 
-
 # Config da tela
 largura, altura = 600, 400
 tela = pygame.display.set_mode((largura, altura))
